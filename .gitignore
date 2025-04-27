@@ -1,0 +1,9 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Jupyter notebook backup files
+.ipynb_checkpoints/
+
+# (Optional) Ignore Python cache
+__pycache__/
+*.pyc
