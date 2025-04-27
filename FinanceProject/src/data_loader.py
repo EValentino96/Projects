@@ -1,3 +1,11 @@
+"""
+Data loading utilities for financial stock analysis.
+
+This module provides functions to load financial data from various file formats
+(CSV, Parquet, Excel) into pandas DataFrames. It ensures a consistent structure
+by resetting the index and parsing the date column for time series analysis.
+"""
+
 import pandas as pd
 import os
 
@@ -5,8 +13,9 @@ def load_data(path, file_type=None, date_col='Date'):
     """
     Load financial data from a file and return a pandas DataFrame.
 
-    Supports CSV, Parquet, and Excel formats. Automatically parses the date column
-    and resets the index to a range index starting from 1.
+    Supports CSV, Parquet, and Excel formats. Automatically parses the date column,
+    resets the index to a range index starting from 1, and ensures the date column
+    is explicitly present.
 
     Parameters
     ----------
@@ -22,7 +31,6 @@ def load_data(path, file_type=None, date_col='Date'):
     pandas.DataFrame
         Loaded and cleaned DataFrame with the date as a column and a range index.
     """
-
     if file_type is None:
         file_type = os.path.splitext(path)[-1].lower().lstrip('.')
 
@@ -40,7 +48,7 @@ def load_data(path, file_type=None, date_col='Date'):
     if date_col in df.columns:
         df = df.sort_values(by=date_col).reset_index(drop=True)
     else:
-        raise ValueError(f"Expected '{date_col}' column not found.")
+        raise ValueError(f"Expected '{date_col}' column not found in DataFrame.")
 
     df.index += 1
     return df
